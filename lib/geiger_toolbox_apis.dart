@@ -10,16 +10,27 @@ import 'package:sqflite/sqflite.dart';
 
 /// A Calculator.
 class GeigerToolboxAPIs {
-  var database;
+  static var database;
+
+  static getDatabaseInstance() async {
+    if (GeigerToolboxAPIs.database != null) {
+      return GeigerToolboxAPIs.database;
+    } else {
+      await GeigerToolboxAPIs.connect();
+      return getDatabaseInstance();
+    }
+  }
+
   /**
    * Establish the connection
    */
-  Future<void> connect() async {
+  static Future<void> connect() async {
+    print("[GeigerToolboxAPIs] Connecting to database");
     // Avoid errors caused by flutter upgrade.
     // Importing 'package:flutter/widgets.dart' is required.
     WidgetsFlutterBinding.ensureInitialized();
     // Open the database and store the reference.
-    this.database = openDatabase(
+    GeigerToolboxAPIs.database = openDatabase(
       // Set the path to the database. Note: Using the `join` function from the
       // `path` package is best practice to ensure the path is correctly
       // constructed for each platform.
@@ -38,9 +49,10 @@ class GeigerToolboxAPIs {
   }
 
   // Define a function that inserts a sensing data into the database
-  Future<void> addSensingData(String key, String value) async {
+  static Future<void> addSensingData(String key, String value) async {
+    print("[GeigerToolboxAPIs] Adding sensing data: $key - $value");
     // Get a reference to the database.
-    final db = await this.database;
+    final db = await getDatabaseInstance();
 
     // Insert the sensing into the correct table. You might also specify the
     // `conflictAlgorithm` to use in case the same sensing data is inserted twice.
@@ -54,11 +66,19 @@ class GeigerToolboxAPIs {
     );
   }
 
-  Future<String?> getSensingData(String key) async {
+  static Future<String?> getSensingData(String key) async {
+    print("[GeigerToolboxAPIs] Getting sensing data: $key");
     // Get a reference to the database.
-    final db = await this.database;
-    final String sensingData = await db.query(
-        'SELECT value FROM ${GeigerConfigs.DB_SENSING_DATA_TABLE} WHERE key=$key');
-    return sensingData;
+    final db = await getDatabaseInstance();
+    // Get a reference to the database.
+    List<Map> maps = await db.query(GeigerConfigs.DB_SENSING_DATA_TABLE,
+        columns: ['value'], where: 'key=?', whereArgs: [key]);
+    if (maps.length > 0) {
+      final data = maps.first['value'];
+      print("[GeigerToolboxAPIs] return data: $data");
+      return data;
+    } else {
+      return null;
+    }
   }
 }
