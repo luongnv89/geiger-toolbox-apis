@@ -40,3 +40,6 @@ jobs:
       run: dart pub publish --dry-run
     - name: Publish a new version to pub.dev
       run: dart pub publish -y
+      with:
+          accessToken: ${{ secrets.OAUTH_ACCESS_TOKEN }}
+          refreshToken: ${{ secrets.OAUTH_REFRESH_TOKEN }}
