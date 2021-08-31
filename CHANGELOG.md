@@ -18,3 +18,6 @@
 
 ## 0.0.6
 * fix getSensingData value query
+
+## 0.0.7
+* add some documentations
