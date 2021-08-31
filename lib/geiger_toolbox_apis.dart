@@ -21,9 +21,7 @@ class GeigerToolboxAPIs {
     }
   }
 
-  /**
-   * Establish the connection
-   */
+  /// Establish the connection
   static Future<void> connect() async {
     print("[GeigerToolboxAPIs] Connecting to database");
     // Avoid errors caused by flutter upgrade.
