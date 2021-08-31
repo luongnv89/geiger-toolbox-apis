@@ -39,5 +39,4 @@ jobs:
     - name: Check before publish to pub.dev
       run: dart pub publish --dry-run
     - name: Publish a new version to pub.dev
-      run: dart pub publish
-
+      run: dart pub publish -y
