@@ -4,7 +4,7 @@ on:
     branches:
     - master
     - dev
-  pull_request:
+  # pull_request:
 
 jobs:
   unit-test:
@@ -16,23 +16,28 @@ jobs:
         os: [ubuntu-18.04]
     steps:
     # Set up Flutter.
-    - name: Clone Flutter repository with master channel
+    - name: Setup Flutter environment
       uses: subosito/flutter-action@4389e6cbc6cb8a4b18c628ff96ff90be0e926aa8
       with:
         channel: master
     - run: flutter doctor -v
 
     # Checkout gallery code and get packages.
-    - name: Checkout gallery code
+    - name: Checkout GitHub Action code
       uses: actions/checkout@v2
     - run: flutter pub get
 
     # Analyze, check formatting, and run unit tests.
-    - run: flutter analyze
-    - name: Ensure the Dart code is formatted correctly
+    - name: Analyze the project
+      run: flutter analyze
+    - name: Check the format
       run: flutter format --set-exit-if-changed --dry-run .
-    - name: Run Flutter unit tests
+    - name: Run unit tests
       run: flutter test
 
     # TODO: publish to pub.dev
+    - name: Check before publish to pub.dev
+      run: dart pub publish --dry-run
+    - name: Publish a new version to pub.dev
+      run: dart pub publish
 

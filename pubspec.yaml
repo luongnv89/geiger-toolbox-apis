@@ -1,6 +1,6 @@
 name: geiger_toolbox_apis
-description: A new Flutter package project.
-version: 0.0.7
+description: Geiger Toolbox APIs
+version: 0.0.8
 homepage: https://github.com/luongnv89/geiger-toolbox-apis
 
 environment:
