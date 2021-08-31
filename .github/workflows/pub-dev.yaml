@@ -3,7 +3,7 @@ on:
   push:
     branches:
     - master
-    - dev
+    # - dev
   # pull_request:
 
 jobs:
@@ -38,7 +38,7 @@ jobs:
     - name: Run unit tests
       run: flutter test
 
-    # TODO: publish to pub.dev
+    # publish to pub.dev
     - name: Check before publish to pub.dev
       run: dart pub publish --dry-run
     - name: Setup credentials
