@@ -1,4 +1,4 @@
-name: Tests
+name: Tests API
 on:
   push:
     branches:
@@ -38,20 +38,29 @@ jobs:
     - name: Run unit tests
       run: flutter test
 
-    # publish to pub.dev
-    - name: Check before publish to pub.dev
-      run: dart pub publish --dry-run
-    - name: Setup credentials
+    # Trigger other to test the application
+    - name: Test applications
       run: |
-        cat <<EOF > $PUB_CACHE/credentials.json
-        {
-          "accessToken":"${{ secrets.OAUTH_ACCESS_TOKEN }}",
-          "refreshToken":"${{ secrets.OAUTH_REFRESH_TOKEN }}",
-          "idToken":"${{ secrets.OAUTH_ID_TOKEN }}",
-          "tokenEndpoint":"https://accounts.google.com/o/oauth2/token",
-          "scopes": [ "openid", "https://www.googleapis.com/auth/userinfo.email" ],
-          "expiration": 1630429975373
-        }
-        EOF
-    - name: Publish package
-      run: dart pub publish -f
+          curl \
+          -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/octocat/hello-world/actions/workflows/42/dispatches \
+          -d '{"ref":"ref"}'
+
+    # # publish to pub.dev
+    # - name: Check before publish to pub.dev
+    #   run: dart pub publish --dry-run
+    # - name: Setup credentials
+    #   run: |
+    #     cat <<EOF > $PUB_CACHE/credentials.json
+    #     {
+    #       "accessToken":"${{ secrets.OAUTH_ACCESS_TOKEN }}",
+    #       "refreshToken":"${{ secrets.OAUTH_REFRESH_TOKEN }}",
+    #       "idToken":"${{ secrets.OAUTH_ID_TOKEN }}",
+    #       "tokenEndpoint":"https://accounts.google.com/o/oauth2/token",
+    #       "scopes": [ "openid", "https://www.googleapis.com/auth/userinfo.email" ],
+    #       "expiration": 1630429975373
+    #     }
+    #     EOF
+    # - name: Publish package
+    #   run: dart pub publish -f
