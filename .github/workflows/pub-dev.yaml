@@ -44,7 +44,7 @@ jobs:
           curl \
           -X POST \
           -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/octocat/hello-world/actions/workflows/42/dispatches \
+          https://api.github.com/repos/luongnv89/geiger_toolbox_api_flutter/actions/workflows/main.yaml/dispatches \
           -d '{"ref":"ref"}'
 
     # # publish to pub.dev
