@@ -24,3 +24,7 @@
 
 ## 0.0.8
 * add GitHub Actions workflow
+
+## 0.0.9
+* full pubdev credential
+* change pubdev-flow to internal-workflow

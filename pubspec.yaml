@@ -1,6 +1,6 @@
 name: geiger_toolbox_apis
 description: Geiger Toolbox APIs
-version: 0.0.8
+version: 0.0.9
 homepage: https://github.com/luongnv89/geiger-toolbox-apis
 
 environment:
